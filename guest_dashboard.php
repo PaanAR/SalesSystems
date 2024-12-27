@@ -18,6 +18,7 @@ header('X-Content-Type-Options: nosniff');
 <head>
     <title>Guest Dashboard - Roti Sri Bakery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net 'nonce-<?php echo $_SESSION['csrf_token']; ?>'; style-src 'self' https://cdn.jsdelivr.net;">
     <style>
         .card {
@@ -51,15 +52,25 @@ header('X-Content-Type-Options: nosniff');
                         <a class="nav-link" href="menu.php">Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cart.php">Cart</a>
+                        <a class="nav-link" href="view_orders.php">My Orders</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                    <span class="text-light me-3">Welcome, <?php echo sanitize_output($_SESSION['user']['fullname']); ?></span>
-                    <form action="logout.php" method="POST" style="display: inline;">
-                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-                        <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-                    </form>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php echo sanitize_output($_SESSION['user']['fullname']); ?>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="logout.php" method="POST" style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,20 +85,32 @@ header('X-Content-Type-Options: nosniff');
         <?php endif; ?>
 
         <div class="row mb-4">
-            <div class="col-md-8">
-                <h2>My Dashboard</h2>
-            </div>
-            <div class="col-md-4 text-end">
-                <a href="place_order.php" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Place New Order
-                </a>
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- Recent Orders Card -->
             <div class="col-md-4">
-                <div class="card h-100">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Information</h5>
+                        <div class="mb-3">
+                            <strong>Name:</strong> <?php echo sanitize_output($_SESSION['user']['fullname']); ?>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Email:</strong> <?php echo sanitize_output($_SESSION['user']['email']); ?>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Contact:</strong> <?php echo sanitize_output($_SESSION['user']['contact']); ?>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Address:</strong><br>
+                            <?php echo nl2br(sanitize_output($_SESSION['user']['address'])); ?>
+                        </div>
+                        <a href="edit_profile.php" class="btn btn-primary w-100">
+                            <i class="bi bi-pencil"></i> Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Recent Orders</h5>
                         <div class="list-group">
@@ -128,52 +151,27 @@ header('X-Content-Type-Options: nosniff');
                     </div>
                 </div>
             </div>
-
-            <!-- Profile Card -->
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">My Profile</h5>
-                        <ul class="list-unstyled">
-                            <li><strong>Name:</strong> <?php echo sanitize_output($_SESSION['user']['fullname']); ?></li>
-                            <li><strong>Email:</strong> <?php echo sanitize_output($_SESSION['user']['email']); ?></li>
-                            <li><strong>Contact:</strong> <?php echo sanitize_output($_SESSION['user']['contact']); ?></li>
-                            <li><strong>Address:</strong> <?php echo sanitize_output($_SESSION['user']['address']); ?></li>
-                        </ul>
-                        <a href="edit_profile.php" class="btn btn-outline-primary w-100">Edit Profile</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Special Offers Card -->
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Special Offers</h5>
-                        <div class="alert alert-info">
-                            <strong>Weekend Special!</strong>
-                            <p>20% off on all pastries this weekend.</p>
-                        </div>
-                        <div class="alert alert-warning">
-                            <strong>New Items!</strong>
-                            <p>Try our new chocolate croissants!</p>
-                        </div>
-                        <a href="offers.php" class="btn btn-outline-primary w-100">View All Offers</a>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <div class="row mt-4">
-            <!-- Quick Actions -->
-            <div class="col-12">
+        <div class="row mb-4">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Quick Actions</h5>
-                        <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Quick Actions</h5>
+                            <a href="place_order.php" class="btn btn-primary">
+                                <i class="bi bi-cart-plus"></i> Place New Order
+                            </a>
+                        </div>
+                        <div class="row mt-3">
                             <div class="col-md-3">
                                 <a href="menu.php" class="btn btn-outline-secondary w-100 mb-2">
                                     <i class="bi bi-book"></i> Browse Menu
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="view_orders.php" class="btn btn-outline-secondary w-100 mb-2">
+                                    <i class="bi bi-clock-history"></i> Order History
                                 </a>
                             </div>
                             <div class="col-md-3">
@@ -182,16 +180,67 @@ header('X-Content-Type-Options: nosniff');
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="support.php" class="btn btn-outline-secondary w-100 mb-2">
-                                    <i class="bi bi-headset"></i> Support
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="favorites.php" class="btn btn-outline-secondary w-100 mb-2">
-                                    <i class="bi bi-heart"></i> My Favorites
+                                <a href="edit_profile.php" class="btn btn-outline-secondary w-100 mb-2">
+                                    <i class="bi bi-person"></i> Edit Profile
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Featured Products</h5>
+                        <div class="row">
+                            <?php
+                            // Fetch featured products from inventory
+                            $stmt = $conn->prepare("SELECT * FROM inventory WHERE status = 'active' AND stock_level > 0 LIMIT 4");
+                            $stmt->execute();
+                            $featured_products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                            
+                            foreach ($featured_products as $product): ?>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title"><?php echo sanitize_output($product['product_name']); ?></h6>
+                                            <p class="card-text">
+                                                RM<?php echo number_format($product['unit_price'], 2); ?>
+                                            </p>
+                                            <a href="place_order.php?product=<?php echo $product['id']; ?>" 
+                                               class="btn btn-sm btn-primary">
+                                                Order Now
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special Offers</h5>
+                        <?php
+                        // Fetch active promotions
+                        $stmt = $conn->prepare("SELECT * FROM promotions WHERE status = 'active' AND NOW() BETWEEN start_date AND end_date LIMIT 3");
+                        $stmt->execute();
+                        $promotions = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                        
+                        foreach ($promotions as $promo): ?>
+                            <div class="alert alert-info">
+                                <h6><?php echo sanitize_output($promo['code']); ?></h6>
+                                <p class="mb-0"><?php echo sanitize_output($promo['description']); ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                        
+                        <a href="promotions.php" class="btn btn-outline-primary w-100">View All Offers</a>
                     </div>
                 </div>
             </div>

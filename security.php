@@ -35,10 +35,11 @@ function sanitize_output($data) {
 }
 
 function hash_password($password, $salt) {
-    return hash('sha256', $password . $salt);
+    // Using PASSWORD_DEFAULT will use the strongest algorithm available (currently bcrypt)
+    return password_hash($password . $salt, PASSWORD_DEFAULT);
 }
 
 function verify_password($password, $hash, $salt) {
-    return hash_equals($hash, hash('sha256', $password . $salt));
+    return password_verify($password . $salt, $hash);
 }
 ?> 
