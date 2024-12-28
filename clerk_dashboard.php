@@ -66,6 +66,32 @@ foreach ($products as $product) {
     $categorized_products[$product['category']][] = $product;
 }
 
+// Fetch pending online orders
+$stmt = $conn->prepare("
+    SELECT 
+        o.id,
+        o.order_number,
+        o.order_date,
+        o.total_amount,
+        o.payment_method,
+        g.fullname as customer_name,
+        g.contact as customer_contact,
+        GROUP_CONCAT(
+            CONCAT(oi.quantity, 'x ', i.product_name)
+            SEPARATOR ', '
+        ) as items
+    FROM orders o 
+    LEFT JOIN order_items oi ON o.id = oi.order_id 
+    LEFT JOIN inventory i ON oi.product_id = i.id
+    LEFT JOIN guest g ON o.guest_id = g.id
+    WHERE o.status = 'pending' 
+    AND o.order_type = 'online'
+    GROUP BY o.id 
+    ORDER BY o.order_date ASC
+");
+$stmt->execute();
+$pending_orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
 // Process new order
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
@@ -162,6 +188,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         header("Location: print_receipt.php?order_id=" . $order_id);
         exit();
         
+    } catch (Exception $e) {
+        $conn->rollback();
+        $_SESSION['error'] = "Error processing order: " . $e->getMessage();
+    }
+}
+
+// Add handler for approve/cancel actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_action'])) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+
+    $order_id = $_POST['order_id'];
+    $action = $_POST['order_action'];
+    $clerk_id = $_SESSION['user']['id'];
+
+    try {
+        $conn->begin_transaction();
+
+        if ($action === 'approve') {
+            $stmt = $conn->prepare("
+                UPDATE orders 
+                SET status = 'completed', 
+                    clerk_id = ?,
+                    payment_status = 'paid'
+                WHERE id = ?
+            ");
+        } else {
+            $stmt = $conn->prepare("
+                UPDATE orders 
+                SET status = 'cancelled', 
+                    clerk_id = ?
+                WHERE id = ?
+            ");
+        }
+
+        $stmt->bind_param("ii", $clerk_id, $order_id);
+        $stmt->execute();
+
+        $conn->commit();
+        $_SESSION['success'] = "Order " . ($action === 'approve' ? "approved" : "cancelled") . " successfully!";
+        header("Location: clerk_dashboard.php");
+        exit();
+
     } catch (Exception $e) {
         $conn->rollback();
         $_SESSION['error'] = "Error processing order: " . $e->getMessage();
@@ -284,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">New In-Store Order</h5>
-                        <form method="POST" id="orderForm">
+                        <form method="POST" id="orderForm" class="new-order-form">
                             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                             
                             <?php foreach ($categorized_products as $category => $products): ?>
@@ -314,6 +384,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                                     <?php endforeach; ?>
                                 </div>
                             <?php endforeach; ?>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -411,6 +482,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <!-- Pending Online Orders -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Online Orders</h5>
+                        <?php if (empty($pending_orders)): ?>
+                            <p class="text-muted">No pending orders</p>
+                        <?php else: ?>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>Customer</th>
+                                            <th>Items</th>
+                                            <th>Amount</th>
+                                            <th>Payment</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($pending_orders as $order): ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo htmlspecialchars($order['order_number']); ?><br>
+                                                    <small class="text-muted">
+                                                        <?php echo date('Y-m-d H:i', strtotime($order['order_date'])); ?>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <?php echo htmlspecialchars($order['customer_name']); ?><br>
+                                                    <small class="text-muted">
+                                                        <?php echo htmlspecialchars($order['customer_contact']); ?>
+                                                    </small>
+                                                </td>
+                                                <td><small><?php echo htmlspecialchars($order['items']); ?></small></td>
+                                                <td>RM<?php echo number_format($order['total_amount'], 2); ?></td>
+                                                <td><?php echo ucfirst($order['payment_method']); ?></td>
+                                                <td>
+                                                    <!-- Approve Form -->
+                                                    <form method="POST" style="display: inline;">
+                                                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                        <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+                                                        <input type="hidden" name="order_action" value="approve">
+                                                        <button type="submit" 
+                                                                class="btn btn-sm btn-success" 
+                                                                onclick="return confirm('Approve this order?')">
+                                                            <i class="bi bi-check-lg"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <!-- Cancel Form -->
+                                                    <form method="POST" style="display: inline;">
+                                                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                        <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+                                                        <input type="hidden" name="order_action" value="cancel">
+                                                        <button type="submit" 
+                                                                class="btn btn-sm btn-danger" 
+                                                                onclick="return confirm('Cancel this order?')">
+                                                            <i class="bi bi-x-lg"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -454,6 +596,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
         // Initialize total on page load
         updateTotal();
+
+        // Update form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle new order form
+            const newOrderForm = document.querySelector('.new-order-form');
+            if (newOrderForm) {
+                newOrderForm.addEventListener('submit', function(e) {
+                    const customerName = this.querySelector('input[name="customer_name"]');
+                    const customerContact = this.querySelector('input[name="customer_contact"]');
+                    
+                    if (!customerName.value.trim() || !customerContact.value.trim()) {
+                        e.preventDefault();
+                        alert('Please fill in all customer details');
+                    }
+                });
+            }
+
+            // Remove validation from approve/cancel forms
+            const approvalForms = document.querySelectorAll('.approve-order-form');
+            approvalForms.forEach(form => {
+                form.setAttribute('novalidate', 'novalidate');
+            });
+        });
     </script>
 </body>
 </html> 

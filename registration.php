@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
     $confirm_password = htmlspecialchars(trim($_POST['confirm_password']));
+    $address = htmlspecialchars(trim($_POST['address']));
     $role = $_POST['role'];
     $employee_id = isset($_POST['employee_id']) ? htmlspecialchars(trim($_POST['employee_id'])) : null;
 
@@ -45,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // If no errors, proceed to insert into the database
             if (!isset($error)) {
                 // Insert into the guest table
-                $stmt = $conn->prepare("INSERT INTO guest (fullname, contact, email, password, type, employee_id) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssss", $fullname, $contact, $email, password_hash($password, PASSWORD_DEFAULT), $type, $employee_id);
+                $stmt = $conn->prepare("INSERT INTO guest (fullname, contact, email, password, type, employee_id, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssiss", $fullname, $contact, $email, password_hash($password, PASSWORD_DEFAULT), $type, $employee_id, $address);
                 $stmt->execute();
 
                 // Mark the Employee ID as assigned if applicable
@@ -115,6 +116,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="mb-3">
                     <label for="contact" class="form-label">Contact Number</label>
                     <input type="text" class="form-control" name="contact" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" name="address" rows="3" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>

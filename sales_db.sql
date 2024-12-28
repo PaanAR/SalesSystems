@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2024 at 04:05 PM
+-- Generation Time: Dec 28, 2024 at 07:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -98,7 +98,9 @@ CREATE TABLE `guest` (
 INSERT INTO `guest` (`id`, `fullname`, `contact`, `address`, `email`, `password`, `salt`, `type`, `date_created`, `employee_id`) VALUES
 (15, 'Bob Smith', '0112223333', '', 'bob@gmail.com', '$2y$10$t4jxQs6rBbqH4x14B00lf.0Bt1/xJsfbEOwuqAtwRk5HgLzpRM6EG', '', 1, '2024-12-28 11:09:06', 'SV-1002'),
 (16, 'Diana Prince', '01122233332', '', 'diana@gmail.com', '$2y$10$s1OvABlalF5X66aXXHscaOIV2BQD1ynvAqghtxAuuPqcUPv3LEcuO', '', 2, '2024-12-28 11:11:12', 'CL-2002'),
-(19, 'Alif Ibrahim', '01234567890', '-', 'walk-in-1735397966', '', '', 3, '2024-12-28 22:59:26', NULL);
+(19, 'Alif Ibrahim', '01234567890', '-', 'walk-in-1735397966', '', '', 3, '2024-12-28 22:59:26', NULL),
+(20, 'Tuan Muhammad Farhan Bin Tuan Rashid', '0197909367', 'Jalan Surabaya', 'farhanrashid293@gmail.com', '$2y$10$8y/CVwWah74WMI0AQygoq.SfPHB2Eds/eCk3W3ItdilZYfSgGdag.', '', 3, '2024-12-28 23:19:20', ''),
+(21, 'Abqari', '0197909311', 'NO S-48/50-A BATU 1  1/2\r\nJALAN PENGKALAN CHEPA', 'abqari@gmail.com', '$2y$10$EDVI7OCu9XxTZ3KCT/fad.bMw3zbZI.5boG6RJgvHAIUqGoOTHP3q', '', 3, '2024-12-29 01:43:48', '');
 
 -- --------------------------------------------------------
 
@@ -125,25 +127,25 @@ CREATE TABLE `inventory` (
 
 INSERT INTO `inventory` (`id`, `product_name`, `description`, `category`, `unit_price`, `stock_level`, `reorder_point`, `status`, `created_at`, `updated_at`) VALUES
 (9, 'Classic Butter Bun', NULL, '', 1.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(10, 'Chocolate Croissant', NULL, '', 2.00, 80, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(11, 'Almond Danish', NULL, '', 2.50, 59, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 14:59:26'),
-(12, 'Cinnamon Roll Delight', NULL, '', 2.00, 70, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(13, 'Roti Canai Special', NULL, '', 1.20, 150, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(14, 'Pineapple Tart', NULL, '', 3.00, 50, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(15, 'Red Bean Bun', NULL, '', 1.80, 90, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(16, 'Mango Mousse Cake', NULL, '', 5.00, 30, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(17, 'Cheese Puff Pastry', NULL, '', 2.80, 40, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(18, 'Matcha Green Tea Cake', NULL, '', 4.50, 20, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(19, 'Blueberry Muffin', NULL, '', 1.50, 99, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 14:59:26'),
-(20, 'Honey Oat Bread', NULL, '', 2.20, 80, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(21, 'Spicy Tuna Puff', NULL, '', 2.50, 60, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(22, 'Egg Tart', NULL, '', 1.80, 90, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(23, 'Fruit Tartlet', NULL, '', 3.50, 50, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(24, 'Vanilla Cream Puff', NULL, '', 2.00, 70, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(10, 'Chocolate Croissant', NULL, '', 2.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:36:37'),
+(11, 'Almond Danish', NULL, '', 2.50, 98, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 18:19:59'),
+(12, 'Cinnamon Roll Delight', NULL, '', 2.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 18:19:31'),
+(13, 'Roti Canai Special', NULL, '', 1.20, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:36:46'),
+(14, 'Pineapple Tart', NULL, '', 3.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:36:50'),
+(15, 'Red Bean Bun', NULL, '', 1.80, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:36:53'),
+(16, 'Mango Mousse Cake', NULL, '', 5.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:40'),
+(17, 'Cheese Puff Pastry', NULL, '', 2.80, 96, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 18:20:16'),
+(18, 'Matcha Green Tea Cake', NULL, '', 4.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:34'),
+(19, 'Blueberry Muffin', NULL, '', 1.50, 96, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 18:19:59'),
+(20, 'Honey Oat Bread', NULL, '', 2.20, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:26'),
+(21, 'Spicy Tuna Puff', NULL, '', 2.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:21'),
+(22, 'Egg Tart', NULL, '', 1.80, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:19'),
+(23, 'Fruit Tartlet', NULL, '', 3.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:14'),
+(24, 'Vanilla Cream Puff', NULL, '', 2.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:10'),
 (25, 'Sesame Seed Bun', NULL, '', 1.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(26, 'Lemon Drizzle Cake', NULL, '', 4.00, 30, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(27, 'Caramel Pecan Pie', NULL, '', 5.50, 20, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
-(28, 'Roti Jala (Lace Pancake)', NULL, '', 1.00, 150, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55');
+(26, 'Lemon Drizzle Cake', NULL, '', 4.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:37:06'),
+(27, 'Caramel Pecan Pie', NULL, '', 5.50, 96, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 18:20:16'),
+(28, 'Roti Jala (Lace Pancake)', NULL, '', 1.00, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 17:36:59');
 
 -- --------------------------------------------------------
 
@@ -168,8 +170,10 @@ CREATE TABLE `inventory_transactions` (
 --
 
 INSERT INTO `inventory_transactions` (`id`, `product_id`, `order_id`, `clerk_id`, `transaction_type`, `quantity`, `previous_stock`, `new_stock`, `transaction_date`) VALUES
-(16, 11, 33, 16, 'sale', 1, 60, 59, '2024-12-28 14:59:26'),
-(17, 19, 33, 16, 'sale', 1, 100, 99, '2024-12-28 14:59:26');
+(31, 11, 46, NULL, 'sale', 1, 100, 99, '2024-12-28 18:19:59'),
+(32, 19, 46, NULL, 'sale', 2, 100, 98, '2024-12-28 18:19:59'),
+(33, 27, 47, NULL, 'sale', 2, 100, 98, '2024-12-28 18:20:16'),
+(34, 17, 47, NULL, 'sale', 2, 100, 98, '2024-12-28 18:20:16');
 
 -- --------------------------------------------------------
 
@@ -198,40 +202,44 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `guest_id`, `order_number`, `order_date`, `total_amount`, `status`, `payment_method`, `payment_status`, `delivery_address`, `order_type`, `clerk_id`, `notes`, `created_at`) VALUES
-(33, 19, 'POS1735397966', '2024-12-28 22:59:26', 4.00, 'completed', 'cash', 'paid', NULL, 'in-store', 16, NULL, '2024-12-28 14:59:26');
+(46, 20, 'ORD1735409999', '2024-12-29 02:19:59', 5.50, 'pending', 'cash', 'pending', 'Jalan Surabaya', 'online', NULL, NULL, '2024-12-28 18:19:59'),
+(47, 21, 'ORD1735410016', '2024-12-29 02:20:16', 16.60, 'pending', 'online', 'pending', 'NO S-48/50-A BATU 1  1/2\r\nJALAN PENGKALAN CHEPA', 'online', NULL, NULL, '2024-12-28 18:20:16');
 
 --
 -- Triggers `orders`
 --
 DELIMITER $$
 CREATE TRIGGER `after_order_insert` AFTER INSERT ON `orders` FOR EACH ROW BEGIN
-    INSERT INTO daily_sales (
-        clerk_id, 
-        date, 
-        total_orders,
-        total_sales,
-        cash_orders,
-        cash_sales,
-        card_orders,
-        card_sales
-    )
-    VALUES (
-        NEW.clerk_id,
-        DATE(NEW.order_date),
-        1,
-        NEW.total_amount,
-        IF(NEW.payment_method = 'cash', 1, 0),
-        IF(NEW.payment_method = 'cash', NEW.total_amount, 0),
-        IF(NEW.payment_method = 'card', 1, 0),
-        IF(NEW.payment_method = 'card', NEW.total_amount, 0)
-    )
-    ON DUPLICATE KEY UPDATE
-        total_orders = total_orders + 1,
-        total_sales = total_sales + VALUES(total_sales),
-        cash_orders = cash_orders + VALUES(cash_orders),
-        cash_sales = cash_sales + VALUES(cash_sales),
-        card_orders = card_orders + VALUES(card_orders),
-        card_sales = card_sales + VALUES(card_sales);
+    -- Only track in-store sales in daily_sales
+    IF NEW.order_type = 'in-store' THEN
+        INSERT INTO daily_sales (
+            clerk_id, 
+            date, 
+            total_orders,
+            total_sales,
+            cash_orders,
+            cash_sales,
+            card_orders,
+            card_sales
+        )
+        VALUES (
+            NEW.clerk_id,
+            DATE(NEW.order_date),
+            1,
+            NEW.total_amount,
+            IF(NEW.payment_method = 'cash', 1, 0),
+            IF(NEW.payment_method = 'cash', NEW.total_amount, 0),
+            IF(NEW.payment_method = 'card', 1, 0),
+            IF(NEW.payment_method = 'card', NEW.total_amount, 0)
+        )
+        ON DUPLICATE KEY UPDATE
+            total_orders = total_orders + 1,
+            total_sales = total_sales + VALUES(total_sales),
+            cash_orders = cash_orders + VALUES(cash_orders),
+            cash_sales = cash_sales + VALUES(cash_sales),
+            card_orders = card_orders + VALUES(card_orders),
+            card_sales = card_sales + VALUES(card_sales);
+    END IF;
 END
 $$
 DELIMITER ;
@@ -256,20 +264,24 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`, `subtotal`) VALUES
-(23, 33, 11, 1, 2.50, 2.50),
-(24, 33, 19, 1, 1.50, 1.50);
+(38, 46, 11, 1, 2.50, 2.50),
+(39, 46, 19, 2, 1.50, 3.00),
+(40, 47, 27, 2, 5.50, 11.00),
+(41, 47, 17, 2, 2.80, 5.60);
 
 --
 -- Triggers `order_items`
 --
 DELIMITER $$
 CREATE TRIGGER `after_order_item_insert` AFTER INSERT ON `order_items` FOR EACH ROW BEGIN
-    -- Update inventory stock level
-    UPDATE inventory 
-    SET stock_level = stock_level - NEW.quantity 
+    DECLARE current_stock INT;
+    
+    -- Get current stock level
+    SELECT stock_level INTO current_stock
+    FROM inventory 
     WHERE id = NEW.product_id;
     
-    -- Record inventory transaction
+    -- Record inventory transaction first
     INSERT INTO inventory_transactions (
         product_id, 
         order_id, 
@@ -285,11 +297,15 @@ CREATE TRIGGER `after_order_item_insert` AFTER INSERT ON `order_items` FOR EACH 
         o.clerk_id,
         'sale',
         NEW.quantity,
-        i.stock_level + NEW.quantity,
-        i.stock_level
+        current_stock,
+        current_stock - NEW.quantity
     FROM orders o
-    JOIN inventory i ON i.id = NEW.product_id
     WHERE o.id = NEW.order_id;
+    
+    -- Then update inventory stock level
+    UPDATE inventory 
+    SET stock_level = current_stock - NEW.quantity 
+    WHERE id = NEW.product_id;
 END
 $$
 DELIMITER ;
@@ -403,7 +419,7 @@ ALTER TABLE `employee_ids`
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `inventory`
@@ -415,19 +431,19 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `inventory_transactions`
 --
 ALTER TABLE `inventory_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `promotions`

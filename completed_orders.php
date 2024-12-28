@@ -16,7 +16,7 @@ $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 $payment_method = isset($_GET['payment_method']) ? $_GET['payment_method'] : '';
 
 // Build the WHERE clause
-$where_conditions = ["o.clerk_id = ?"];
+$where_conditions = ["(o.clerk_id = ? AND o.status = 'completed')"];
 $params = [$_SESSION['user']['id']];
 $param_types = "i";
 
@@ -144,6 +144,7 @@ $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             <option value="">All Payment Methods</option>
                             <option value="cash" <?php echo $payment_method === 'cash' ? 'selected' : ''; ?>>Cash</option>
                             <option value="card" <?php echo $payment_method === 'card' ? 'selected' : ''; ?>>Card</option>
+                            <option value="online" <?php echo $payment_method === 'online' ? 'selected' : ''; ?>>Online</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -184,7 +185,13 @@ $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                     </td>
                                     <td>RM<?php echo number_format($order['total_amount'], 2); ?></td>
                                     <td>
-                                        <span class="badge bg-<?php echo $order['payment_method'] === 'cash' ? 'success' : 'info'; ?>">
+                                        <span class="badge bg-<?php 
+                                            echo match($order['payment_method']) {
+                                                'cash' => 'success',
+                                                'card' => 'info',
+                                                'online' => 'primary',
+                                                default => 'secondary'
+                                            }; ?>">
                                             <?php echo ucfirst($order['payment_method']); ?>
                                         </span>
                                     </td>
