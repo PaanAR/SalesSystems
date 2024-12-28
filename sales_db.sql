@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2024 at 05:02 AM
+-- Generation Time: Dec 28, 2024 at 04:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,8 +45,7 @@ CREATE TABLE `daily_sales` (
 --
 
 INSERT INTO `daily_sales` (`id`, `clerk_id`, `date`, `total_orders`, `total_sales`, `cash_orders`, `cash_sales`, `card_orders`, `card_sales`, `created_at`) VALUES
-(1, 6, '2024-12-28', 6, 113.50, 5, 78.00, 1, 35.50, '2024-12-27 18:44:45'),
-(5, 16, '2024-12-28', 1, 12.00, 1, 12.00, 0, 0.00, '2024-12-28 03:45:51');
+(5, 16, '2024-12-28', 2, 16.00, 2, 16.00, 0, 0.00, '2024-12-28 03:45:51');
 
 -- --------------------------------------------------------
 
@@ -97,18 +96,9 @@ CREATE TABLE `guest` (
 --
 
 INSERT INTO `guest` (`id`, `fullname`, `contact`, `address`, `email`, `password`, `salt`, `type`, `date_created`, `employee_id`) VALUES
-(4, 'Tuan Muhammad Farhan Bin Tuan Rashid', '0197909367', 'No s-48/50-a batu 1  1/2', 'farhanrashid293@gmail.com', 'fba38b34999e2bf6b04b939e61951e03e48979a072bf7f496e109f23090aa9e5', 'fca5f92ad922ee2af30c62342d2fe80021dcc5e0ba3e412c40b8e10e396f4131', 3, '2024-12-27 23:33:23', NULL),
-(5, 'Tuan Muhammad Farhan Bin Tuan Rashid', '0197909367', 'NO S-48/50-A BATU 1  1/2\r\nJALAN PENGKALAN CHEPA', 'farhanras@gmail.com', '$2y$10$QTXJAwLXqGqmTO9d.duy.uQRubI1lSlINF/k58gTnmZOVZ8RhkNjW', '28a9773d496d0119b56c221fa55a6f32467c03094c4697cd7764ec3f0a75894c', 3, '2024-12-28 01:33:17', NULL),
-(6, 'Clerk inas', '01112222342', 'No s-48/50-a batul 1  1/2', 'inas@gmail.com', '$2y$10$tIYTyPG4.DDUFqQ3o90KJer69VmJ7bx8C3SZ/RhmhB.QUhvhMAIqu', '0b28f58038873d511d86a428b755ce286ccadcc388b371c89e079ac80a076233', 2, '2024-12-28 02:00:56', NULL),
-(7, '', '', '-', 'walk-in-1735324293', '', '', 3, '2024-12-28 02:31:33', NULL),
-(8, 'farhanrashid', '0197909367', '-', 'walk-in-1735324429', '', '', 3, '2024-12-28 02:33:49', NULL),
-(9, 'PAAN', '0197909367', '-', 'walk-in-1735324784', '', '', 3, '2024-12-28 02:39:44', NULL),
-(10, 'farhan', '0197909367', '-', 'walk-in-1735325157', '', '', 3, '2024-12-28 02:45:57', NULL),
-(11, 'Ikmal', '01112222341', '-', 'walk-in-1735344994', '', '', 3, '2024-12-28 08:16:34', NULL),
-(12, 'Hafizudin', '0123212121', '-', 'walk-in-1735346393', '', '', 3, '2024-12-28 08:39:53', NULL),
 (15, 'Bob Smith', '0112223333', '', 'bob@gmail.com', '$2y$10$t4jxQs6rBbqH4x14B00lf.0Bt1/xJsfbEOwuqAtwRk5HgLzpRM6EG', '', 1, '2024-12-28 11:09:06', 'SV-1002'),
 (16, 'Diana Prince', '01122233332', '', 'diana@gmail.com', '$2y$10$s1OvABlalF5X66aXXHscaOIV2BQD1ynvAqghtxAuuPqcUPv3LEcuO', '', 2, '2024-12-28 11:11:12', 'CL-2002'),
-(17, 'farhanrashid', '0197909367', '-', 'walk-in-1735357551', '', '', 3, '2024-12-28 11:45:51', NULL);
+(19, 'Alif Ibrahim', '01234567890', '-', 'walk-in-1735397966', '', '', 3, '2024-12-28 22:59:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -134,14 +124,26 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `product_name`, `description`, `category`, `unit_price`, `stock_level`, `reorder_point`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'White Bread', 'Fresh white bread', 'Bread', 3.50, 33, 20, 'active', '2024-12-27 15:41:16', '2024-12-28 03:45:51'),
-(2, 'Whole Wheat Bread', 'Healthy whole wheat bread', 'Bread', 4.00, 37, 15, 'active', '2024-12-27 15:41:16', '2024-12-28 03:45:51'),
-(3, 'Chocolate Croissant', 'Buttery croissant with chocolate', 'Pastries', 2.50, 29, 10, 'active', '2024-12-27 15:41:16', '2024-12-28 00:39:53'),
-(4, 'Plain Croissant', 'Classic butter croissant', 'Pastries', 2.00, 35, 12, 'active', '2024-12-27 15:41:16', '2024-12-27 15:41:16'),
-(5, 'Cheese Cake', 'New York style cheese cake', 'Cakes', 25.00, 8, 5, 'active', '2024-12-27 15:41:16', '2024-12-28 00:39:53'),
-(6, 'Chocolate Cake', 'Rich chocolate cake', 'Cakes', 30.00, 8, 4, 'active', '2024-12-27 15:41:16', '2024-12-27 15:41:16'),
-(7, 'Butter Cookies', 'Traditional butter cookies', 'Cookies', 8.00, 23, 10, 'active', '2024-12-27 15:41:16', '2024-12-28 00:39:53'),
-(8, 'Raisin Bread', 'Sweet bread with raisins', 'Bread', 4.50, 3, 8, 'active', '2024-12-27 15:41:16', '2024-12-28 03:45:51');
+(9, 'Classic Butter Bun', NULL, '', 1.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(10, 'Chocolate Croissant', NULL, '', 2.00, 80, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(11, 'Almond Danish', NULL, '', 2.50, 59, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 14:59:26'),
+(12, 'Cinnamon Roll Delight', NULL, '', 2.00, 70, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(13, 'Roti Canai Special', NULL, '', 1.20, 150, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(14, 'Pineapple Tart', NULL, '', 3.00, 50, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(15, 'Red Bean Bun', NULL, '', 1.80, 90, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(16, 'Mango Mousse Cake', NULL, '', 5.00, 30, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(17, 'Cheese Puff Pastry', NULL, '', 2.80, 40, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(18, 'Matcha Green Tea Cake', NULL, '', 4.50, 20, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(19, 'Blueberry Muffin', NULL, '', 1.50, 99, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 14:59:26'),
+(20, 'Honey Oat Bread', NULL, '', 2.20, 80, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(21, 'Spicy Tuna Puff', NULL, '', 2.50, 60, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(22, 'Egg Tart', NULL, '', 1.80, 90, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(23, 'Fruit Tartlet', NULL, '', 3.50, 50, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(24, 'Vanilla Cream Puff', NULL, '', 2.00, 70, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(25, 'Sesame Seed Bun', NULL, '', 1.50, 100, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(26, 'Lemon Drizzle Cake', NULL, '', 4.00, 30, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(27, 'Caramel Pecan Pie', NULL, '', 5.50, 20, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55'),
+(28, 'Roti Jala (Lace Pancake)', NULL, '', 1.00, 150, 0, 'active', '2024-12-28 07:04:55', '2024-12-28 07:04:55');
 
 -- --------------------------------------------------------
 
@@ -166,21 +168,8 @@ CREATE TABLE `inventory_transactions` (
 --
 
 INSERT INTO `inventory_transactions` (`id`, `product_id`, `order_id`, `clerk_id`, `transaction_type`, `quantity`, `previous_stock`, `new_stock`, `transaction_date`) VALUES
-(1, 8, 14, 6, 'sale', 2, 15, 13, '2024-12-27 18:31:33'),
-(2, 1, 14, 6, 'sale', 2, 48, 46, '2024-12-27 18:31:33'),
-(3, 8, 15, 6, 'sale', 1, 11, 10, '2024-12-27 18:33:49'),
-(4, 8, 16, 6, 'sale', 1, 9, 8, '2024-12-27 18:39:44'),
-(5, 1, 16, 6, 'sale', 1, 44, 43, '2024-12-27 18:39:44'),
-(6, 8, 17, 6, 'sale', 3, 8, 5, '2024-12-27 18:45:57'),
-(7, 1, 17, 6, 'sale', 8, 43, 35, '2024-12-27 18:45:57'),
-(8, 8, 18, 6, 'sale', 1, 5, 4, '2024-12-28 00:16:34'),
-(9, 1, 18, 6, 'sale', 1, 35, 34, '2024-12-28 00:16:34'),
-(10, 5, 19, 6, 'sale', 1, 9, 8, '2024-12-28 00:39:53'),
-(11, 7, 19, 6, 'sale', 1, 24, 23, '2024-12-28 00:39:53'),
-(12, 3, 19, 6, 'sale', 1, 30, 29, '2024-12-28 00:39:53'),
-(13, 8, 20, 16, 'sale', 1, 4, 3, '2024-12-28 03:45:51'),
-(14, 1, 20, 16, 'sale', 1, 34, 33, '2024-12-28 03:45:51'),
-(15, 2, 20, 16, 'sale', 1, 38, 37, '2024-12-28 03:45:51');
+(16, 11, 33, 16, 'sale', 1, 60, 59, '2024-12-28 14:59:26'),
+(17, 19, 33, 16, 'sale', 1, 100, 99, '2024-12-28 14:59:26');
 
 -- --------------------------------------------------------
 
@@ -209,18 +198,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `guest_id`, `order_number`, `order_date`, `total_amount`, `status`, `payment_method`, `payment_status`, `delivery_address`, `order_type`, `clerk_id`, `notes`, `created_at`) VALUES
-(1, 4, 'ORD1735314644', '2024-12-27 23:50:44', 4.50, 'pending', '', 'pending', 'No s-48/50-a batu 1  1/2', 'online', NULL, NULL, '2024-12-27 15:50:44'),
-(2, 4, 'ORD1735314991', '2024-12-27 23:56:31', 17.00, 'pending', '', 'pending', 'No s-48/50-a batu 1  1/2', 'online', NULL, NULL, '2024-12-27 15:56:31'),
-(3, 4, 'ORD1735317317', '2024-12-28 00:35:17', 8.00, 'pending', '', 'pending', 'No s-48/50-a batu 1  1/2', 'online', NULL, NULL, '2024-12-27 16:35:17'),
-(4, 5, 'ORD1735320840', '2024-12-28 01:34:00', 16.00, 'pending', '', 'pending', 'NO S-48/50-A BATU 1  1/2\r\nJALAN PENGKALAN CHEPA', 'online', NULL, NULL, '2024-12-27 17:34:00'),
-(5, 5, 'ORD1735320884', '2024-12-28 01:34:44', 25.00, 'pending', '', 'pending', 'NO S-48/50-A BATU 1  1/2\r\nJALAN PENGKALAN CHEPA', 'online', NULL, NULL, '2024-12-27 17:34:44'),
-(14, 7, 'POS1735324293', '2024-12-28 02:31:33', 16.00, 'completed', 'cash', 'paid', NULL, 'in-store', 6, NULL, '2024-12-27 18:31:33'),
-(15, 8, 'POS1735324429', '2024-12-28 02:33:49', 4.50, 'completed', 'cash', 'paid', NULL, 'in-store', 6, NULL, '2024-12-27 18:33:49'),
-(16, 9, 'POS1735324784', '2024-12-28 02:39:44', 8.00, 'completed', 'cash', 'paid', NULL, 'in-store', 6, NULL, '2024-12-27 18:39:44'),
-(17, 10, 'POS1735325157', '2024-12-28 02:45:57', 41.50, 'completed', 'cash', 'paid', NULL, 'in-store', 6, NULL, '2024-12-27 18:45:57'),
-(18, 11, 'POS1735344994', '2024-12-28 08:16:34', 8.00, 'completed', 'cash', 'paid', NULL, 'in-store', 6, NULL, '2024-12-28 00:16:34'),
-(19, 12, 'POS1735346393', '2024-12-28 08:39:53', 35.50, 'completed', 'card', 'paid', NULL, 'in-store', 6, NULL, '2024-12-28 00:39:53'),
-(20, 17, 'POS1735357551', '2024-12-28 11:45:51', 12.00, 'completed', 'cash', 'paid', NULL, 'in-store', 16, NULL, '2024-12-28 03:45:51');
+(33, 19, 'POS1735397966', '2024-12-28 22:59:26', 4.00, 'completed', 'cash', 'paid', NULL, 'in-store', 16, NULL, '2024-12-28 14:59:26');
 
 --
 -- Triggers `orders`
@@ -278,28 +256,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`, `subtotal`) VALUES
-(1, 1, 8, 1, 4.50, 4.50),
-(2, 2, 8, 2, 4.50, 9.00),
-(3, 2, 2, 2, 4.00, 8.00),
-(4, 3, 7, 1, 8.00, 8.00),
-(5, 4, 8, 2, 4.50, 9.00),
-(6, 4, 1, 2, 3.50, 7.00),
-(7, 5, 5, 1, 25.00, 25.00),
-(8, 14, 8, 2, 4.50, 9.00),
-(9, 14, 1, 2, 3.50, 7.00),
-(10, 15, 8, 1, 4.50, 4.50),
-(11, 16, 8, 1, 4.50, 4.50),
-(12, 16, 1, 1, 3.50, 3.50),
-(13, 17, 8, 3, 4.50, 13.50),
-(14, 17, 1, 8, 3.50, 28.00),
-(15, 18, 8, 1, 4.50, 4.50),
-(16, 18, 1, 1, 3.50, 3.50),
-(17, 19, 5, 1, 25.00, 25.00),
-(18, 19, 7, 1, 8.00, 8.00),
-(19, 19, 3, 1, 2.50, 2.50),
-(20, 20, 8, 1, 4.50, 4.50),
-(21, 20, 1, 1, 3.50, 3.50),
-(22, 20, 2, 1, 4.00, 4.00);
+(23, 33, 11, 1, 2.50, 2.50),
+(24, 33, 19, 1, 1.50, 1.50);
 
 --
 -- Triggers `order_items`
@@ -433,7 +391,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `daily_sales`
 --
 ALTER TABLE `daily_sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee_ids`
@@ -445,31 +403,31 @@ ALTER TABLE `employee_ids`
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `inventory_transactions`
 --
 ALTER TABLE `inventory_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `promotions`

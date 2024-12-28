@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Create order
-        $stmt = $conn->prepare("INSERT INTO orders (guest_id, order_number, order_date, total_amount, status, payment_method, delivery_address, order_type) VALUES (?, ?, NOW(), ?, 'pending', ?, ?, 'online')");
+        $stmt = $conn->prepare("INSERT INTO orders (guest_id, order_number, order_date, total_amount, status, payment_method, delivery_address, order_type, clerk_id) VALUES (?, ?, NOW(), ?, 'pending', ?, ?, 'online', 0)");
         $stmt->bind_param("issds", $guest_id, $order_number, $total_amount, $payment_method, $delivery_address);
         $stmt->execute();
         $order_id = $conn->insert_id;
