@@ -5,6 +5,7 @@ require 'db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
     
     if (!isset($_SESSION['login_attempts'])) {
         $_SESSION['login_attempts'] = 0;
@@ -12,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['last_attempt'] = time();
     $_SESSION['login_attempts']++;
     
-    $stmt = $conn->prepare("SELECT * FROM Guest WHERE email = ?");
+    $stmt = $conn->prepare("SELECT * FROM guest WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -20,11 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         
-        if (verify_password($_POST['password'], $user['password'], $user['salt'])) {
+        // Verify password using proper hashing
+        if (password_verify($password . $user['salt'], $user['password'])) {
             $_SESSION['login_attempts'] = 0;
             $_SESSION['user'] = $user;
             $_SESSION['last_activity'] = time();
             $_SESSION['created'] = time();
+            
+            // Add CSRF token
+            if (empty($_SESSION['csrf_token'])) {
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            }
             
             switch($user['type']) {
                 case 1:
@@ -97,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
             
             <div class="text-center mt-3">
-                <p>Don't have an account? <a href="register.php">Register here</a></p>
+            <p>Don't have an account? <a href="registration.php">Register here</a></p>
             </div>
         </div>
     </div>

@@ -72,7 +72,8 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
             <p>Welcome back, <?php echo htmlspecialchars($user['fullname']); ?>!</p>
             <a href="logout.php">Logout</a>
         <?php else: ?>
-            <p>Please <a href="login.php">Login</a> or <a href="register.php">Register</a> to access more features.</p>
+            <p>Please <a href="login.php">Login</a> or <a href="registeration.php">Register</a> to access more features.</p>
+
         <?php endif; ?>
     </div>
     <footer>
