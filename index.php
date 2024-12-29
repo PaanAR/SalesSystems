@@ -59,7 +59,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
         <p>Delicious pastries since the 1980s</p>
     </header>
     <nav>
-        <a href="register.php">Register</a>
+        <a href="registration.php">Register</a>
         <a href="login.php">Login</a>
         <a href="sales.php">Sales</a>
         <a href="inventory.php">Inventory</a>

@@ -26,6 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Start transaction
         $conn->begin_transaction();
 
+        // Verify current password for ANY profile update
+        $stmt = $conn->prepare("SELECT password, salt FROM guest WHERE id = ?");
+        $stmt->bind_param("i", $_SESSION['user']['id']);
+        $stmt->execute();
+        $user = $stmt->get_result()->fetch_assoc();
+
+        if (!verify_password($current_password, $user['password'], $user['salt'])) {
+            throw new Exception("Current password is incorrect.");
+        }
+
         // Check if email exists for other users
         $stmt = $conn->prepare("SELECT id FROM guest WHERE email = ? AND id != ?");
         $stmt->bind_param("si", $email, $_SESSION['user']['id']);
@@ -163,13 +173,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="mb-3">
                                 <label class="form-label">Current Password</label>
-                                <input type="password" class="form-control" name="current_password">
-                                <small class="text-muted">Leave password fields empty if you don't want to change it</small>
+                                <input type="password" class="form-control" name="current_password" required autocomplete="off">
+                                <small class="text-muted">Required to make any changes to your profile</small>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">New Password</label>
-                                <input type="password" class="form-control" name="new_password">
+                                <input type="password" class="form-control" name="new_password" autocomplete="off">
                                 <div class="password-requirements">
                                     Password must contain:
                                     <ul>
@@ -183,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="mb-3">
                                 <label class="form-label">Confirm New Password</label>
-                                <input type="password" class="form-control" name="confirm_password">
+                                <input type="password" class="form-control" name="confirm_password" autocomplete="off">
                             </div>
 
                             <div class="d-grid gap-2">
