@@ -12,8 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = htmlspecialchars(trim($_POST['address']));
     $type = 3; // Type 3 for Guest
 
+    // Password validation
+    $password_pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/";
+    if (!preg_match($password_pattern, $password)) {
+        $error = "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.";
+    }
     // Check if passwords match
-    if ($password !== $confirm_password) {
+    else if ($password !== $confirm_password) {
         $error = "Passwords do not match.";
     } else {
         // Insert into the guest table
@@ -85,6 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" name="password" required>
+                    <small class="text-muted">
+                        Password requirements:
+                        <ul>
+                            <li>At least 8 characters</li>
+                            <li>At least one uppercase letter</li>
+                            <li>At least one lowercase letter</li>
+                            <li>At least one number</li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-3">
                     <label for="confirm_password" class="form-label">Confirm Password</label>
