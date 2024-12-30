@@ -40,15 +40,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
-                // Insert into the employee table
-                $stmt = $conn->prepare("INSERT INTO employee (fullname, contact, email, password, type, address) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssis", $fullname, $contact, $email, password_hash($password, PASSWORD_DEFAULT), $type, $address);
-                
-                if ($stmt->execute()) {
-                    header("Location: login.php");
-                    exit();
+                // First check if email already exists
+                $check_email = $conn->prepare("SELECT email FROM guest WHERE email = ?");
+                $check_email->bind_param("s", $email);
+                $check_email->execute();
+                $email_result = $check_email->get_result();
+
+                if ($email_result->num_rows > 0) {
+                    $error = "Email address already exists. Please use a different email.";
                 } else {
-                    $error = "Registration failed. Please try again.";
+                    // Insert into the guest table
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    $stmt = $conn->prepare("INSERT INTO guest (fullname, contact, email, password, type, address) VALUES (?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("ssssis", $fullname, $contact, $email, $hashed_password, $type, $address);
+                    
+                    if ($stmt->execute()) {
+                        header("Location: login.php");
+                        exit();
+                    } else {
+                        $error = "Registration failed. Please try again.";
+                    }
                 }
             } else {
                 $error = "Employee ID is invalid or already assigned.";
@@ -243,45 +254,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const password = document.querySelector('input[name="password"]').value;
-        const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
-        
-        // Password validation
-        const hasUpperCase = /[A-Z]/.test(password);
-        const hasLowerCase = /[a-z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        const isLongEnough = password.length >= 8;
-
-        if (!hasUpperCase || !hasLowerCase || !hasNumber || !isLongEnough) {
-            e.preventDefault();
-            alert('Password must contain:\n- At least 8 characters\n- At least one uppercase letter\n- At least one lowercase letter\n- At least one number');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            e.preventDefault();
-            alert('Passwords do not match');
-            return;
-        }
-    });
-
-    // Add password requirements hint
-    const passwordInput = document.querySelector('input[name="password"]');
-    const requirementsHint = document.createElement('div');
-    requirementsHint.className = 'form-text text-muted';
-    requirementsHint.innerHTML = `
-        <small>Password must contain:
-            <ul>
-                <li>At least 8 characters</li>
-                <li>At least one uppercase letter</li>
-                <li>At least one lowercase letter</li>
-                <li>At least one number</li>
-            </ul>
-        </small>
-    `;
-    passwordInput.parentNode.insertBefore(requirementsHint, passwordInput.nextSibling);
-    </script>
 </body>
 </html> 
