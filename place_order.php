@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Update inventory
                 $stmt = $conn->prepare("UPDATE inventory SET stock_level = stock_level - ? WHERE id = ?");
-                $stmt->bind_param("ii", $quantity, $item_id);
+                $stmt->bind_param("ii", intdiv($quantity, 2), $item_id);
                 $stmt->execute();
             }
         }

@@ -357,6 +357,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_action'])) {
                         <form method="POST" id="orderForm" class="new-order-form">
                             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                             
+                            <div class="mb-3">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" name="customer_name" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Contact Number</label>
+                                <input type="text" name="customer_contact" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Payment Method</label>
+                                <select name="payment_method" class="form-select" required>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                </select>
+                            </div>
+
                             <?php foreach ($categorized_products as $category => $products): ?>
                                 <h6 class="mt-4"><?php echo htmlspecialchars($category); ?></h6>
                                 <div class="row">
@@ -384,6 +400,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_action'])) {
                                     <?php endforeach; ?>
                                 </div>
                             <?php endforeach; ?>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Total Items:</span>
+                                <span id="totalItems">0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total Amount:</strong>
+                                <strong>RM<span id="totalAmount">0.00</span></strong>
+                            </div>
+                            <button type="submit" name="place_order" class="btn btn-primary w-100" id="submitOrder" disabled>
+                                Complete Order
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -391,42 +419,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_action'])) {
 
             <!-- Order Summary -->
             <div class="col-md-4">
-                <div class="card position-sticky" style="top: 1rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Order Summary</h5>
-                        
-                        <!-- Add Walk-in Customer Details -->
-                        <div class="mb-3">
-                            <label class="form-label">Customer Name</label>
-                            <input type="text" name="customer_name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contact Number</label>
-                            <input type="text" name="customer_contact" class="form-control" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Payment Method</label>
-                            <select name="payment_method" class="form-select" required>
-                                <option value="cash">Cash</option>
-                                <option value="card">Card</option>
-                            </select>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Total Items:</span>
-                            <span id="totalItems">0</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <strong>Total Amount:</strong>
-                            <strong>RM<span id="totalAmount">0.00</span></strong>
-                        </div>
-                        <button type="submit" name="place_order" class="btn btn-primary w-100" id="submitOrder" disabled>
-                            Complete Order
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Recent Orders -->
                 <div class="card mt-3">
                     <div class="card-body">
