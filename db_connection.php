@@ -1,5 +1,5 @@
 <?php
-$host = 'localhost';
+$host = '127.0.0.1:3307';
 $username = 'root';  // your database username
 $password = '';      // your database password
 $database = 'sales_db'; // your database name
